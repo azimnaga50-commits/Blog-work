@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Azim’s Star Wars Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: white;
+            overflow-x: hidden;
+            opacity: 0;
+            animation: fadeIn 1.6s ease forwards;
+
+            background:
+                radial-gradient(circle at 20% 30%, rgba(120,90,255,.45), transparent 40%),
+                radial-gradient(circle at 80% 25%, rgba(0,255,255,.35), transparent 45%),
+                radial-gradient(circle at 60% 80%, rgba(255,120,200,.35), transparent 45%),
+
+                radial-gradient(1px 1px at 5% 10%, white, transparent),
+                radial-gradient(1px 1px at 15% 35%, white, transparent),
+                radial-gradient(1px 1px at 25% 65%, white, transparent),
+                radial-gradient(2px 2px at 30% 80%, white, transparent),
+                radial-gradient(1px 1px at 40% 20%, white, transparent),
+                radial-gradient(2px 2px at 50% 50%, white, transparent),
+                radial-gradient(1px 1px at 60% 15%, white, transparent),
+                radial-gradient(2px 2px at 70% 70%, white, transparent),
+                radial-gradient(1px 1px at 80% 40%, white, transparent),
+                radial-gradient(2px 2px at 90% 10%, white, transparent),
+                radial-gradient(1px 1px at 95% 85%, white, transparent),
+
+                linear-gradient(to bottom,#050014,#000);
+            background-attachment: fixed;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .planet {
+            position: fixed;
+            bottom: -200px;
+            left: -150px;
+            width: 700px;
+            height: 700px;
+            border-radius: 50%;
+            background:
+                radial-gradient(circle at 35% 35%, rgba(120,170,255,.45), rgba(30,30,60,.9) 55%, #000 72%);
+            box-shadow:
+                inset -160px -160px 260px rgba(0,0,0,.95),
+                0 0 180px rgba(120,180,255,.45),
+                0 0 320px rgba(160,120,255,.35);
+            z-index: -1;
+        }
+
+        .planet::after {
+            content: "";
+            position: absolute;
+            inset: -15px;
+            border-radius: 50%;
+            background:
+                radial-gradient(circle, transparent 60%, rgba(150,220,255,.45) 72%, transparent 85%);
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0,0,0,.75);
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 35px;
+            z-index: 1000;
+            box-shadow: 0 0 25px rgba(0,255,255,.7);
+        }
+
+        nav a {
+            color: cyan;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        nav a:hover {
+            color: #ffe81f;
+        }
+
+        section {
+            min-height: 100vh;
+            padding: 140px 20px;
+        }
+
+        .glass {
+            background: rgba(0,0,0,.65);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 
+                0 0 35px rgba(0,255,255,.7),
+                inset 0 0 25px rgba(255,255,255,.05);
+        }
+
+        h1, h2 {
+            color: #ffe81f;
+        }
+
+        #hero {
+            text-align: center;
+        }
+
+        #hero img {
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            border: 4px solid cyan;
+            box-shadow: 0 0 35px cyan;
+            opacity: 0;
+            animation: heroFade 1.4s ease forwards .5s;
+        }
+
+        #hero h1 {
+            font-size: 3em;
+            opacity: 0;
+            animation: heroFade 1.4s ease forwards 1s;
+        }
+
+        #hero p {
+            opacity: 0;
+            animation: heroFade 1.4s ease forwards 1.4s;
+            color: #d0d0ff;
+        }
+
+        @keyframes heroFade {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: none; }
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+            gap: 25px;
+        }
+
+        .about-box {
+            background: rgba(0,0,0,.7);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,255,255,.6);
+        }
+
+        .social a {
+            display: block;
+            color: cyan;
+            text-decoration: none;
+            margin-bottom: 8px;
+        }
+
+        .social a:hover {
+            color: #ffe81f;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px,1fr));
+            gap: 20px;
+        }
+
+        .gallery img {
+            width: 100%;
+            border-radius: 14px;
+            box-shadow: 0 0 18px rgba(0,255,255,.6);
+            cursor: zoom-in;
+            transition: .3s;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.06);
+        }
+
+        #lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.93);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        #lightbox img {
+            max-width: 95%;
+            max-height: 95%;
+            border-radius: 18px;
+            box-shadow: 0 0 40px cyan;
+        }
+
+        .story p {
+            font-size : 16px;
+            line-height: 1.8;
+            text-align: justify;
+            text-justify: inter-word;
+        }
+
+        .story img {
+            float: left;
+            max-width: 260px;
+            width: 100%;
+            margin: 8px 18px 12px 0;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,255,255,.5);
+        }
+
+        .story::after{
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        @media (max-width: 700px) {
+            .story img {
+                 float: none;
+                 display: block;
+                 margin: 15px auto;
+            }
+        }
+
+        .story img {
+            cursor: zoom-in;
+            transition: transform 0.3s ease;
+        }
+        
+        .story img:hover {
+            transform: scale(1.02);
+        }
+
+        .about-box ul li a {
+            color: cyan;
+            text-decoration: none;
+        }
+
+        .about-box ul li a:hover {
+            color: #ffe81f;
+            text-decoration: underline;
+        }
+        
+    </style>
+</head>
+
+<body>
+
+    <div class="planet"></div>
+
+    <nav>
+        <a href="#hero">HOME</a>
+        <a href="#about">ABOUT</a>
+        <a href="#pictures">GALLERY</a>
+        <a href="#stories">STORIES</a>
+    </nav>
+
+    <section id="hero">
+        <img src="front.jpg" alt="Profile Picture">
+        <h1>Welcome to My Galaxy Blog</h1>
+        <p>A student walking the path of the stars 🚀</p>
+    </section>
+
+    <section id="about">
+        <div class="glass">
+            <h1>About Me</h1>
+            <div class="about-grid">
+                <div class="about-box">
+                    <p><strong>Full Name:</strong> Abdul Azim Balangue Naga</p>
+                    <p><strong>Age:</strong> 21</p>
+                    <p><strong>Sex:</strong> Male</p>
+                    <p><strong>Course:</strong> Computer Applications</p>
+                </div>
+                <div class="about-box social">
+                    <h2>Social Media</h2>
+                    <a href="https://www.facebook.com/abdulazim.naga.7/" target="_blank">Facebook: abdulazim.naga.7</a>
+                    <a href="https://www.instagram.com/m0nm0.n/" target="_blank">Instagram: m0nm0.n</a>
+                    <a href="https://www.tiktok.com/@monmon17708" target="_blank">TikTok: @monmon17708</a>
+                    <a href="">Gmail: azimnaga50@gmail.com</a>
+                </div>
+                <div class="about-box">
+                    <h2>Hobbies</h2>
+                    <ul>
+                        <li><a href="#gaming">🎮 Gaming</a></li>
+                        <li><a href="#coding">💻 Coding</a></li>
+                        <li><a href="#pictures">📷 Photography</a></li>
+                        <li><a href="#music">🎵 Music</a></li>
+                        <li><a href="#stargazing">🌌 Stargazing</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pictures">
+        <div class="glass">
+            <h1>Landscape Pictures</h1>
+            <div class="gallery" id="landscape"></div>
+        </div>
+
+        <div class="glass">
+            <h1>Portrait Pictures</h1>
+            <div class="gallery" id="portrait"></div>
+        </div>
+
+        <div id="source" hidden>
+            <img src="Images/PIC1.jpg.jpeg">
+            <img src="Images/PIC2.jpg.jpeg">
+            <img src="Images/PIC3.jpg.jpeg">
+            <img src="Images/PIC4.jpg.jpeg">
+            <img src="Images/PIC5.jpg.jpeg">
+            <img src="Images/PIC6.jpg.jpeg">
+            <img src="Images/PIC7.jpg.jpeg">
+            <img src="Images/PIC8.jpg.jpeg">
+            <img src="Images/PIC9.jpg.jpeg">
+            <img src="Images/PIC10.jpg.jpeg">
+            <img src="Images/PIC11.jpg.jpeg">
+            <img src="Images/PIC12.jpg.jpeg">
+            <img src="Images/PIC13.jpg.jpeg">
+            <img src="Images/PIC14.jpg.jpeg">
+            <img src="Images/PIC15.jpg.jpeg">
+            <img src="Images/PIC16.jpg.jpeg">
+            <img src="Images/PIC17.jpg.jpeg">
+            <img src="Images/PIC18.jpg.jpeg">
+            <img src="Images/PIC19.jpg.jpeg">
+            <img src="Images/PIC20.jpg.jpeg">
+            <img src="Images/PIC21.jpg.jpeg">
+            <img src="Images/PIC22.jpg.jpeg">
+            <img src="Images/PIC23.jpg.jpeg">
+            <img src="Images/PIC24.jpg.jpeg">
+            <img src="Images/PIC25.jpg.jpeg">
+            <img src="Images/PIC26.jpg.jpeg">
+            <img src="Images/PIC27.jpg.jpeg">
+            <img src="Images/PIC28.jpg.jpeg">
+            <img src="Images/PIC29.jpg.jpeg">
+            <img src="Images/PIC30.jpg.jpeg">
+            <img src="Images/PIC31.jpg.jpeg">
+            <img src="Images/PIC32.jpg.jpeg">
+            <img src="Images/PIC33.jpg.jpeg">
+            <img src="Images/PIC34.jpg.jpeg">
+            <img src="Images/PIC35.jpg.jpeg">
+            <img src="Images/PIC36.jpg.jpeg">
+            <img src="Images/PIC37.jpg.jpeg">
+            <img src="Images/PIC38.jpg.jpeg">
+            <img src="Images/PIC39.jpg.jpeg">
+            <img src="Images/PIC40.jpg.jpeg">
+            <img src="Images/PIC41.jpg.jpeg">
+            <img src="Images/PIC42.jpg.jpeg">
+            <img src="Images/PIC43.jpg.jpeg">
+            <img src="Images/PIC44.jpg.jpeg">
+            <img src="Images/PIC45.jpg.jpeg">
+            <img src="Images/PIC46.jpg.jpeg">
+            <img src="Images/PIC47.jpg.jpeg">
+            <img src="Images/PIC48.jpg.jpeg">
+            <img src="Images/PIC49.jpg.jpeg">
+            <img src="Images/PIC50.jpg.jpeg">
+            <img src="Images/PIC51.jpg.jpeg">
+        </div>
+    </section>
+
+    <section id="stories">
+        <div class="glass">
+            <div class="about-grid">
+                <div class="about-box story">
+                    <h2>My High school story</h2>
+                    <img src="Images/PIC52.jpg">
+                    <p> My high school story was one of the best moments in my life. I have met so many people, and some of them I can truly call my dear friends.
+                        We shared countless memories together, from studying late at night for exams to hanging out after school with no real plans, just enjoying each other’s company.
+                        Those years were filled with laughter, challenges, growth, and lessons that I never realized would shape me so deeply.
+                        High school was not just a place for learning academics, but also a place where I learned about life, friendship, and myself.
+                        I will always cherish the friendships I made and the lessons I learned during that time.
+                        Honestly, high school was a rollercoaster of emotions.
+                        There were moments of excitement and happiness, but also moments of stress, pressure, and self-doubt.
+                        Despite all of that, each experience helped mold me into the person I am today.
+                        The people I met, the conversations we shared, and the struggles we overcame together will always hold a special place in my heart.
+                        Although it was tough at times, I would not trade those years for anything.
+                        I remember the countless nights we stayed up late studying for exams, trying to motivate each other when we felt exhausted and overwhelmed.
+                        We would share notes, quiz one another, and remind each other that everything would eventually be okay.
+                        Those moments of camaraderie brought us closer together and created bonds that lasted even beyond high school.
+                        Before, our group would often hang out after school, exploring the city, trying new restaurants, walking around with no destination in mind, and simply enjoying the freedom of being young.
+                        We laughed over the smallest things and created memories that we still talk about and laugh about today.
+                        Those simple moments of joy and friendship made high school a truly special and unforgettable time in my life.
+                        Long ago, I used to dread going to school.
+                        I saw it as a place full of responsibilities, expectations, and pressure.
+                        But as time went on, I slowly began to appreciate the friendships and experiences that high school offered.
+                        It became a place where I felt a sense of belonging, where I was surrounded by people who understood me and supported me.
+                        But things did not stay the way they were before.
+                        We had a very big circle when we first met each other, but as time went by, some of us drifted apart due to different paths in life.
+                        Some friendships faded naturally, while others were lost because of arguments or misunderstandings.
+                        It was painful to see some of my friends slowly disappear from my daily life, but I came to understand that not everyone is meant to stay forever.
+                        Despite everything that happened, I still consider them as some of my dear and true friends.
+                        The memories we shared will always remain with me, and I will always be grateful for the time we spent together.
+                        Even if we no longer talk the way we used to, they were once an important part of my life, and that will never change.
+                        I still talk to one of those friends because we now go to the same college.
+                        Whenever we find time, we meet up, talk about anything under the sun, share stories about our current struggles and goals, and check on each other.
+                        Moments like these remind me what true friendship really is — being there for each other even as life moves forward.
+                        Overall, my high school story is one of friendship, growth, change, and unforgettable memories.
+                        It taught me the value of connection, the importance of understanding, and the reality that life is always moving forward.
+                        No matter how much time passes, those years will always remain a meaningful chapter of my life, and I truly hope that one day, we can all meet again and reminisce about the good old days.
+                    </p>
+            </div>
+            
+        </div>
+
+        <div class="about-box story">
+            <h3>College Life</h3>
+            <img src="Images/PIC54.jpg">
+            <p>
+                My college life has been one of the most memorable and transformative experiences I’ve ever had, filled with both joy and challenges that have shaped me into who I am today. 
+                From the very first day, I was surrounded by new faces, and it didn’t take long before I began forming friendships that quickly became some of the most important relationships in my life. 
+                Together, we explored every opportunity to enjoy our college years to the fullest. We would spend afternoons going out to eat at new restaurants or small food spots around the city, laughing over our favorite dishes and sharing stories about our day, and sometimes just sitting together for hours, talking about dreams, frustrations, and everything in between.
+                On weekends or during breaks, we would escape the usual routine and venture out to the beach, feeling the sand between our toes and the cool waves hitting our feet, or sometimes trek to waterfalls hidden in lush forests, taking in the beauty of nature while snapping countless pictures and making memories that felt like little escapes from reality.
+                These adventures weren’t just about fun—they became a way for us to bond, to strengthen our friendship, and to be there for each other in ways that went beyond simple companionship.
+                We studied together late at night, quizzing each other and sharing notes, worked together on projects, sometimes arguing over ideas but always finding solutions as a team, and laughed together over the smallest things—inside jokes, funny mistakes, or just the randomness of life.
+                We also shared the tougher moments—times when exams felt impossible, when projects seemed overwhelming, or when personal struggles weighed on us—and we were there for each other, offering support, encouragement, and comfort when it was most needed.<br>
+
+                <br>Yet, my college life hasn’t been all fun and adventures. Lately, it has become much more challenging, as I juggle the responsibilities of being an officer while keeping up with my academics. 
+                Being entrusted with tasks and projects for our organization comes with immense pressure, and there are days when deadlines pile up faster than I can manage. I constantly find myself balancing meetings, reports, and activities, while also ensuring I don’t fall behind on studying, assignments, and personal goals. 
+                It’s exhausting at times, and there are moments when I feel overwhelmed, wondering if I’m doing enough or if I can handle everything. But even in the midst of these challenges, I always try my best to stay organized, remain focused, and give my full effort to everything I do. 
+                What keeps me going is the unwavering support of my friends, who stick by me through the busy days and stressful nights, offering words of encouragement, helping me brainstorm solutions, or simply reminding me to take a deep breath and enjoy the little things. 
+                Together, we navigate the highs and lows of college life, celebrating successes, comforting each other during setbacks, and learning from every experience.<br>
+                <img src="Images/PIC55.jpg">
+
+                <br>Looking back, I realize that my college years are not just about academics or achievements—they are about relationships, growth, and shared experiences. Every meal, every beach trip, every late-night study session, and every laugh or tear has contributed to an unforgettable journey. 
+                I’ve learned responsibility, time management, and resilience, but I’ve also learned the importance of friendship, empathy, and living in the moment. College life has taught me that it’s okay to struggle, that it’s okay to ask for help, and that the people you surround yourself with can make even the toughest days manageable. 
+                Despite the challenges, the stress, and the long hours, I wouldn’t trade these moments for anything, because they are shaping me into a stronger, wiser, and more compassionate person. And I know that the bonds I’ve formed, the adventures I’ve shared, and the lessons I’ve learned will remain with me long after college, serving as a constant reminder of the laughter, tears, growth, and love that filled these years of my life.
+            </p>
+        </div>
+
+        <div class="about-box story" id="gaming">
+            <h4>🎮 Gaming</h4>
+            <img src="Images/PIC53.png">
+            <p>
+                Playing games has always been one of my favorite ways to unwind and escape from the pressures of daily life, and among all the games I’ve played, Dota 2 stands out the most. 
+                From the moment I first launched the game, I was drawn into its complex mechanics, unique heroes, and the endless strategies that made every match feel different. 
+                It challenged me not only to react quickly, but also to think ahead, make smart decisions, and adapt to constantly changing situations. Win or lose, every game felt meaningful, and that feeling kept pulling me back for more.
+                What truly makes Dota 2 special for me is the sense of connection it creates. Playing with friends makes the experience even better, turning intense matches into moments filled with laughter, excitement, and shared frustration. 
+                Even when playing with strangers, the need for communication and teamwork teaches you how to cooperate with different personalities. Late-night games often turn into long conversations, clutch plays become stories we retell, and even the toughest losses become memories we laugh about later. 
+                These moments make the game more than just entertainment—it becomes a space where relationships are built and strengthened.
+                Beyond fun and competition, Dota 2 has taught me valuable life lessons. It has shown me the importance of patience, discipline, and perseverance, especially during difficult matches where things don’t go as planned. The game reminds me that improvement comes from practice and learning from mistakes, not from giving up. 
+                No matter how stressful a day may be, playing Dota 2 helps me clear my mind and refocus. For me, gaming—especially Dota 2—is not just a hobby, but a passion that continues to inspire, challenge, and motivate me every time I play.
+          </p>
+        
+        </div>
+
+    </section>
+
+    <div id="lightbox">
+        <img id="lightbox-img">
+    </div>
+
+    <script>
+        const imgs = document.querySelectorAll("#source img");
+        const land = document.getElementById("landscape");
+        const port = document.getElementById("portrait");
+        const light = document.getElementById("lightbox");
+        const lightImg = document.getElementById("lightbox-img");
+
+        imgs.forEach(img => {
+            const i = new Image();
+            i.src = img.src;
+            i.onload = () => {
+                (i.width >= i.height ? land : port).appendChild(i);
+                i.onclick = () => {
+                    lightImg.src = i.src;
+                    light.style.display = "flex";
+                };
+            };
+        });
+
+        light.onclick = () => light.style.display = "none";
+        document.addEventListener("keydown", e => {
+            if (e.key === "Escape") light.style.display = "none";
+        });
+
+        document.querySelectorAll(".story img").forEach(img => {
+            img.addEventListener("click", () => {
+                lightImg.src = img.src;
+                light.style.display = "flex";
+            });
+        });
+    </script>
+
+</body>
+</html>
